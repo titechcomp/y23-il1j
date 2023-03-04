@@ -1,6 +1,6 @@
 # Information Literacy I (2023 Spring)
 
-Its sister course is [Information Literacy II](https://github.com/titechcomp/y23-il1j/).
+Its sister course is [Information Literacy I](https://github.com/titechcomp/y23-il1j/).
 
 
 Directories:
