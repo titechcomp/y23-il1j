@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>電子メールが届くまで</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="/y22-il1j/lib/js/jquery.min.js"></script>
+  <script src="/y22-il1j/lib/js/il.js"></script>
+  <link rel="stylesheet" href="/y22-il1j/lib/css/solarized.css">
+  <link rel="stylesheet" href="/y22-il1j/lib/css/page.css">
+  <link ref="shortcut icon" type="image/png" href="favicon.png">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+<h1 class="title">電子メールが届くまで</h1>
+</header>
+<section class="header">
+<a href="/y22-il1j">情報リテラシ第一</a> / <a href="/y22-il2j">情報リテラシ第二</a>
+</section>
+<p>メールソフトを使って電子メールのメッセージを作成し、それを送信すると、やがて相手のメールソフトにそのメッセージが表示されます。このように書けば簡単なのですが、電子メールシステムの裏側ではなにが起きているのでしょうか。ここでは、電子メールシステムの仕組みと働きを題材に、コンピュータネットワークシステムについての理解を深めていきます。</p>
+<p>ここまで、簡単にメールソフトと書いてしまいました。しかし、実はメールに関わるソフトウェアには多くの種類が存在します。たとえば、電子メールの読み書きに使われる代表的なソフトウェアにも以下に示したさまざまなものがあります。</p>
+<table>
+<caption>さまざまなメールソフト</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">MUAの名称</th>
+<th style="text-align: left;">動作環境</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Windows Mail</td>
+<td style="text-align: left;">Windows</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Microsoft Outlook</td>
+<td style="text-align: left;">Windows</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Apple Mail</td>
+<td style="text-align: left;">OSX</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QUALCOMM Eudora</td>
+<td style="text-align: left;">Windows + OSX</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mozilla Thunderbird</td>
+<td style="text-align: left;">Windows + OSX + Linux</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Becky!</td>
+<td style="text-align: left;">Windows</td>
+</tr>
+</tbody>
+</table>
+<p>一方で、送信されたメッセージをインターネット上で配送し、配信されたメッセージを貯蔵するためのさまざまなサーバソフトウェアがあります。ある意味、ユーザが直接に触れるいわゆるメールソフトも、配送や配信に関わってメールサーバで実行するソフトウェアもメールソフトウェアと解釈できます。狭義のメールソフトはユーザが直接扱うもの、広義のメールソフトにはさらに配送や配信用のサーバ上で動作するソフトウェアを含めるようです。解釈次第では、いろいろな意味に取られかねないメールソフトという言葉の多義性を排除するために、メールシステム全体に関わる議論の場ではよりきちんとした言葉の使いわけをします。以下では、ネットワークシステムのひとつの実例としてメールシステムがどのように構成されているかについて学んでいきましょう。</p>
+<figure>
+<img src="3/mailSystem-small.png" alt="電子メールの配送の仕組みは郵便配達の仕組みとよく似ています。" /><figcaption>電子メールの配送の仕組みは郵便配達の仕組みとよく似ています。</figcaption>
+</figure>
+<p>電子メールの配送の仕組みと郵便配達の仕組みがよく似ていることが分りますね。この図のなかで<em><code>M?A</code></em>という風に略記されているものが電子メールシステムを支えるソフトウェアの種類を表しています。<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a><em>MUA</em> (Message User Agent) が一般のユーザがメールシステムを利用するのに用いるソフトウェアで、これを使ってメッセージの編集や送受信を行います。メールシステムですので、送信したメッセージを配達して、相手に届ける働きを担うのが、<em>MSA</em>, <em>MTA</em>, <em>MDA</em>, <em>MRA</em>と呼ばれるソフトウェア群です。</p>
+<table>
+<caption>メールシステムに関わる各種のソフトウェア</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ソフトウェア</th>
+<th style="text-align: left;">働き</th>
+<th style="text-align: left;">郵便システムでの例え</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MUA (Message user agent)</td>
+<td style="text-align: left;">いわゆるメールソフト</td>
+<td style="text-align: left;">一般人</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MSA (Message submission agent)</td>
+<td style="text-align: left;">送信用メールサーバ</td>
+<td style="text-align: left;">郵便ポスト</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MTA (Message transfer agent)</td>
+<td style="text-align: left;">メッセージの中継</td>
+<td style="text-align: left;">郵便局</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MDA (Message delivery agent)</td>
+<td style="text-align: left;">メッセージの仕分け</td>
+<td style="text-align: left;">私書箱</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MRA (Message retrieval agent)</td>
+<td style="text-align: left;">メッセージの保存</td>
+<td style="text-align: left;">私書箱</td>
+</tr>
+</tbody>
+</table>
+<p><em>MUA</em> (<em>Message User Agent</em>)はいわゆる<strong>メールソフト</strong>です。MUAは電子メールシステムを使うユーザが接するソフトウェアで、メッセージの作成、編集、送受信などの機能を提供します。MUAは、ユーザの利便性を向上し、多くの人と大量にやりとりされるメッセージを分りやすく効率的に提示するためのさまざまな工夫がなされています。従来は、パソコン内のアプリケーションとして提供されるのが一般的でした。最近、広く使われるようになったウェブメールはウェブ上でメールの送受信をするためのサービスです。ウェブメールは、さまざまな場所や環境でまったく同じ操作性を提供するために人気が出ているようです。一方、専用のメールソフトアプリケーションはメールを整理したり、検索するための機能や応答性に優れているために電子メールの利用が不可欠な職場では今後も使われていくことでしょう。</p>
+<p><em>MSA</em> (<em>Message Submission Agent</em>)がいわゆる<strong>送信用メールサーバ</strong>です。ユーザがMUAを用いて送信したメッセージをメッセージの配送システムに載せ、メッセージの配送を開始するためのソフトウェアです。郵便システムになぞらえれば、郵便ポストにあたるソフトウェアです。</p>
+<p><em>MTA</em> (<em>Message Transfer Agent</em>)は、電子メールのメッセージを中継しつつ、宛先に配達するためのソフトウェアで、電子メールシステムの基幹部にあたります。MUAで発送されたメッセージはMSAによって手近なMTAに送られ、電子メールの配信ネットワークに処理がまかされます。MTAは、郵便の配送システムになぞらえれば、郵便局にあたります。郵便ポスト(MSA)に投函された郵便物は、まず地域の郵便局に回収されます。それがさらに本局の大きな郵便局に回収されます。そして、本局では郵便番号に応じて郵便物を仕分けして、宛先の地区の本局に転送します。最終的に、メッセージは宛先に最寄りの郵便局に配送します。MTAがメッセージのやりとりをするネットワークプロトコルを<strong>SMTP</strong> (<em>Simple Mail Transfer Protocol</em>)といいます。</p>
+<p><em>MDA</em> (<em>Message Delivery Agent</em>)は、MTAによって配送されたメッセージを個別のユーザごとに仕分けするソフトウェアです。MDAは、各ユーザごとにフォルダを用意し、MDAに届けられるメッセージの宛先を見ては該当するフォルダにメッセージを整理すると考えてよいでしょう。郵便局の私書箱に整理するようなイメージです。私書箱をよく知らない人は、郵便屋さんがマンションの集合ポストに郵便物を仕分けするようなイメージを思い描いて下さい。</p>
+<p>電子メールシステムの場合、MDAはさらにいろいろな機能を持つ場合があります。たとえば、プロバイダによっては、ウィルスが添付されていないか検査をするウィルスチェッカ、迷惑メッセージにマークをつけるスパムフィルタ機能、メーリングリストの機能、届いたメールを自動的に処理する機能、長期不在の場合に自動的に不在である旨を答える機能などを付加できます。</p>
+<p><em>MRA</em> (<em>Message Retrieval Agent</em>)がいわゆる受信用メールサーバです。MDAが仕分けしたメールフォルダ内のメッセージを保持しておきます。MUAを用いてMRAに接続すると保存されたメッセージに関する情報やメッセージを送ります。また、古くなったメッセージを消去する機能があります。MRAとしては<strong>POP3</strong> (Post Office Protocol)と<strong>IMAP</strong> (<em>Internet Message Access Protocol</em>)があります。POP3は届いたメッセージを単一のフォルダに保存し、IMAPは複数のフォルダに管理します。両者は使い方についても大きく異なります。POP3を使う場合には、MRAにたまったメッセージはパソコンにまとめてダウンロードしてから眺めることになります。一方、IMAPを使う場合には、メッセージは基本的にIMAPサーバの方で整理・保存されます。ユーザはMUAを用いてサーバに接続してそこに整理されたメッセージを眺めます。POP3では、職場と自宅のように、複数の環境から同じMRAにアクセスする場合には、ある環境で一旦、整理されたメッセージを別の環境で再び整理し直さなくてはならない煩わしさがありました。IMAPを利用すればメールフォルダはインターネット上で共有されるのでこの面倒を避けることができます。</p>
+<section class="footer">
+<a href="/y22-il1j/">情報リテラシ第一</a> / <a href="/y22-il2j/">情報リテラシ第二</a>
+</section>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><em>Agent</em>（エージェント）という語は、人工知能の分野で「（人間と同程度に）賢いソフトウェア」という意味で用いられます。MUA の場合、大量に交わされるメッセージを貯蔵し、整理するという意味で、脳に貯蔵される知識の外部記憶化とも見做すことができます。しかし、現状では一般に人工知能の研究が目指しているほどの賢さを備えているようには思えません。ここで用いられているagentは単にソフトウェアという意味だと思ってください。将来は、これらのエージェントがもっと賢くなって、メールシステムの不便さを解決してくれるといいのですね。<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
+</body>
+</html>
