@@ -1,4 +1,4 @@
-# Information Literacy I (2022 Spring)
+# Information Literacy I (2023 Spring)
 
 Its sister course is [Information Literacy II](https://github.com/titechcomp/y22-il2j/).
 
