@@ -1,0 +1,103 @@
+@media (min-width: 768px) {
+body {
+  margin-left: 5em;
+  margin-right: 5em;
+}
+}
+
+body {
+  line-height: 1.7;
+}
+
+header {
+  background-color: #d8e6d1;
+  padding: 5px 0px 5px 0px;
+}
+
+section.header {
+  border-bottom: 5px;
+}
+
+section.footer {
+  border-top: 5px;
+}
+
+section.header, section.footer {
+  color: white;
+  background-color: black;
+}
+
+section.header > a:link,
+section.header > a:visited,
+section.header > a:hover,
+section.header > a:active,
+section.footer > a:link,
+section.footer > a:visited,
+section.footer > a:hover,
+section.footer > a:active {
+  padding: 2px 20px 2px 20px;
+  font-weight: bold;
+  color: gold;
+}
+
+dt {
+  font-weight: bolder;
+}
+
+quoteblock {
+  background-color: white;
+}
+
+table {
+  width: 90%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  margin-top: 3ex;
+  margin-bottom: 3ex;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+table thead {
+  background-color: #555;
+  color: white;
+}
+
+table tr:nth-child(odd) {
+  background-color: #transparent;
+}
+
+table tr:nth-child(even) {
+  background-color: #fff;
+}
+
+th, td {
+  text-align: left;
+  padding: 5px 20px 5px 20px;
+}
+
+img {
+  width: 95%;
+  /* text-align: center; */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figcaption {
+  text-align: center;
+  font-size: 140%;
+  font-weight: bold;
+}
+
+a:link, a:visited, a:hover, a:active {
+  font-weight: bold;
+  color: chocolate;
+  text-decoration: none;
+}
+
+code, pre {
+  /*font-family: 'Source Sans Pro', monospace;*/
+  font-family: monospace;
+  font-weight: bold;
+  color: blue;
+}
